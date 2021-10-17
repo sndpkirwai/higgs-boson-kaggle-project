@@ -61,6 +61,16 @@ if file is not None:
     st.subheader("Shape of dataset")
     st.write(dataset.shape)
 
+    st.subheader("Correlation matrix of the features")
+    corr = dataset.corr()
+    plt.figure(figsize=(32, 32))
+    fig, ax = plt.subplots()
+    sb.heatmap(corr, ax=ax)
+    st.write(fig)
+
+    # Get the absolute value of the correlation
+    cor_target = abs(cor["Label"])
+
     st.subheader('As you can see from the dataset. It is having negative values as well. :')
     st.subheader('Also dataset contains -999 values which is less relevent so which technique you want to use to imputing')
     mopt = st.multiselect("Select :", ["convert to zero", "convert to mean"])
@@ -68,7 +78,7 @@ if file is not None:
     if (st.button("START imputing")):
         if "convert to zero" in mopt:
 
-            imp_mean = SimpleImputer(missing_values=-999.0, strategy = 'constant', fill_value = 0)
+            imp_mean = SimpleImputer(missing_values=-999.0, strategy='constant', fill_value=0)
             # Imputation transformer for completing missing values.
             imp_mean.fit(dataset)
             dataset = imp_mean.transform(dataset)
@@ -77,21 +87,6 @@ if file is not None:
             # Imputation transformer for completing missing values.
             imp_mean.fit(dataset)
             dataset = imp_mean.transform(dataset)
-
-        st.write(dataset.head())
-        st.subheader("Statistical information about the dataset")
-        st.write(dataset.describe())
-
-        st.subheader("Correlation matrix of the features")
-        corr = dataset.corr()
-        plt.figure(figsize=(32, 32))
-        fig, ax = plt.subplots()
-        sb.heatmap(corr, ax=ax)
-        st.write(fig)
-
-        # Get the absolute value of the correlation
-        cor_target = abs(cor["Label"])
-
 
         st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
         k = st.number_input('', step=0.1, min_value=0.1, value=0.3)
@@ -115,8 +110,6 @@ if file is not None:
             st.subheader('As we know that data has skewness so need to scale numeric columns ')
             st.subheader('Which technique you want to use ')
 
-
-
             mopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
             # "Click to select",
             if (st.button("START scalling")):
@@ -135,7 +128,6 @@ if file is not None:
                 st.write("Data is being split into testing and training data!")
                 # Splitting the data into 20% test and 80% training data
                 # Outlier detection and removal
-        
 
                 y = dataset.iloc[:, -1].values  # extracting the labels/independent variables
                 train_label = y.tolist()
