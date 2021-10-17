@@ -69,71 +69,73 @@ if file is not None:
     st.write(fig)
 
     # Get the absolute value of the correlation
-    cor_target = abs(cor["Label"])
+    cor_target = abs(corr["Label"])
 
-    st.subheader('As you can see from the dataset. It is having negative values as well. :')
-    st.subheader('Also dataset contains -999 values which is less relevent so which technique you want to use to imputing')
-    mopt = st.multiselect("Select :", ["convert to zero", "convert to mean"])
-    # "Click to select",
-    if (st.button("START imputing")):
-        if "convert to zero" in mopt:
+    st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
+    k = st.number_input('', step=0.1, min_value=0.1, value=0.3)
+    if k > 0:
+        # Select highly correlated features (thresold = 0.2)
+        relevant_features = cor_target[cor_target > k]
 
-            imp_mean = SimpleImputer(missing_values=-999.0, strategy='constant', fill_value=0)
-            # Imputation transformer for completing missing values.
-            imp_mean.fit(dataset)
-            dataset = imp_mean.transform(dataset)
-        if "convert to meanN" in mopt:
-            imp_mean = SimpleImputer(missing_values=-999.0, strategy='mean')
-            # Imputation transformer for completing missing values.
-            imp_mean.fit(dataset)
-            dataset = imp_mean.transform(dataset)
+        # Collect the names of the features
+        names = [index for index, value in relevant_features.iteritems()]
 
-        st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
-        k = st.number_input('', step=0.1, min_value=0.1, value=0.3)
-        if k > 0:
-            # Select highly correlated features (thresold = 0.2)
-            relevant_features = cor_target[cor_target > k]
+        # Drop the target variable from the results
+        names.remove('Label')
 
-            # Collect the names of the features
-            names = [index for index, value in relevant_features.iteritems()]
+        st.subheader('Based on provided threshold, best features are:')
+        # Display the results
+        st.write(names)
 
-            # Drop the target variable from the results
-            names.remove('Label')
+        y = dataset['Label']
+        x = dataset[names]
 
-            st.subheader('Based on provided threshold, best features are:')
-            # Display the results
-            st.write(names)
+        st.subheader('As you can see from the dataset. It is having negative values as well. :')
+        st.subheader('Also dataset contains -999 values which is less relevent so which technique you want to use to imputing')
+        mopt = st.multiselect("Select :", ["convert to zero", "convert to mean"])
+        # "Click to select",
+        if (st.button("START imputing")):
+            if "convert to zero" in mopt:
+    
+                imp_mean = SimpleImputer(missing_values=-999.0, strategy='constant', fill_value=0)
+                # Imputation transformer for completing missing values.
+                imp_mean.fit(x)
+                dataset = imp_mean.transform(x)
+            if "convert to meanN" in mopt:
+                imp_mean = SimpleImputer(missing_values=-999.0, strategy='mean')
+                # Imputation transformer for completing missing values.
+                imp_mean.fit(x)
+                dataset = imp_mean.transform(x)
 
-            y = dataset['Label']
-            x = dataset[names]
 
-            st.subheader('As we know that data has skewness so need to scale numeric columns ')
-            st.subheader('Which technique you want to use ')
 
-            mopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
-            # "Click to select",
-            if (st.button("START scalling")):
-                if "StandardScaler" in mopt:
-                    from sklearn.preprocessing import StandardScaler
-                    scaler = StandardScaler()
-                    x = scaler.fit_transform(x)
-                if "Normalize" in mopt:
-                    from sklearn.preprocessing import normalize
-                    x = normalize(x)
+                st.subheader('As we know that data has skewness so need to scale numeric columns ')
+                st.subheader('Which technique you want to use ')
 
-                st.subheader('Test size split of users choice:')
-                st.text('Default is set to 20%')
-                k = st.number_input('', step=5, min_value=10, value=20)
-                X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=k * 0.01, random_state=0)
-                st.write("Data is being split into testing and training data!")
-                # Splitting the data into 20% test and 80% training data
-                # Outlier detection and removal
+                mopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
+                # "Click to select",
+                if (st.button("START scalling")):
+                    if "StandardScaler" in mopt:
+                        from sklearn.preprocessing import StandardScaler
+                        scaler = StandardScaler()
+                        x = scaler.fit_transform(dataset)
+                    if "Normalize" in mopt:
+                        from sklearn.preprocessing import normalize
+                        x = normalize(dataset)
 
-                y = dataset.iloc[:, -1].values  # extracting the labels/independent variables
-                train_label = y.tolist()
-                class_names = list(set(train_label))
-                class_dist = Counter(train_label)
-                le = LabelEncoder()
-                y = le.fit_transform(y)  # Encoding categorical data to numeric data
-                st.success("Data cleaned!")
+                    st.subheader('Test size split of users choice:')
+                    st.text('Default is set to 20%')
+                    k = st.number_input('', step=5, min_value=10, value=20)
+                    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=k * 0.01, random_state=0)
+                    st.write("Data is being split into testing and training data!")
+                    # Splitting the data into 20% test and 80% training data
+                    # Outlier detection and removal
+
+                    y = dataset.iloc[:, -1].values  # extracting the labels/independent variables
+                    train_label = y.tolist()
+                    class_names = list(set(train_label))
+                    class_dist = Counter(train_label)
+                    le = LabelEncoder()
+                    y = le.fit_transform(y)  # Encoding categorical data to numeric data
+                    st.success("Data cleaned!")
 
