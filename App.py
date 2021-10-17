@@ -56,7 +56,7 @@ if file is not None:
     st.subheader("Finding no. of null values per column in the dataset")
     st.write(dataset.isna().sum())
     st.subheader("Statistical information about the dataset")
-    st.write(dataset.describe())+
+    st.write(dataset.describe())
     st.subheader("Shape of dataset")
     st.write(dataset.shape)
 
