@@ -67,76 +67,81 @@ if file is not None:
     # "Click to select",
     if (st.button("START imputing")):
         if "convert to zero" in mopt:
-            dataset[dataset == -999.00 ] = 0
+
+            imp_mean = SimpleImputer(missing_values=-999.0, strategy = 'constant', fill_value = 0)
+            # Imputation transformer for completing missing values.
+            imp_mean.fit(dataset)
+            dataset = imp_mean.transform(dataset)
         if "convert to meanN" in mopt:
             imp_mean = SimpleImputer(missing_values=-999.0, strategy='mean')
             # Imputation transformer for completing missing values.
             imp_mean.fit(dataset)
             dataset = imp_mean.transform(dataset)
 
-    st.write(dataset.head())
-    st.subheader("Statistical information about the dataset")
-    st.write(dataset.describe())
+        st.write(dataset.head())
+        st.subheader("Statistical information about the dataset")
+        st.write(dataset.describe())
 
-    st.subheader("Correlation matrix of the features")
-    corr = dataset.corr()
-    plt.figure(figsize=(32, 32))
-    fig, ax = plt.subplots()
-    sb.heatmap(corr, ax=ax)
-    st.write(fig)
+        st.subheader("Correlation matrix of the features")
+        corr = dataset.corr()
+        plt.figure(figsize=(32, 32))
+        fig, ax = plt.subplots()
+        sb.heatmap(corr, ax=ax)
+        st.write(fig)
 
-    # Get the absolute value of the correlation
-    cor_target = abs(cor["Label"])
-
-
-    st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
-    k = st.number_input('', step=0.1, min_value=0.1, value=0.3)
-    # Select highly correlated features (thresold = 0.2)
-    relevant_features = cor_target[cor_target > k]
-
-    # Collect the names of the features
-    names = [index for index, value in relevant_features.iteritems()]
-
-    # Drop the target variable from the results
-    names.remove('Label')
-
-    st.subheader('Based on provided threshold, best features are:')
-    # Display the results
-    st.write(names)
-
-    y = dataset['Label']
-    x = dataset[names]
-
-    st.subheader('As we know that data has skewness so need to scale numeric columns ')
-    st.subheader('Which technique you want to use ')
+        # Get the absolute value of the correlation
+        cor_target = abs(cor["Label"])
 
 
+        st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
+        k = st.number_input('', step=0.1, min_value=0.1, value=0.3)
+        if k > 0:
+            # Select highly correlated features (thresold = 0.2)
+            relevant_features = cor_target[cor_target > k]
 
-    mopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
-    # "Click to select",
-    if (st.button("START scalling")):
-        if "StandardScaler" in mopt:
-            from sklearn.preprocessing import StandardScaler
-            scaler = StandardScaler()
-            x = scaler.fit_transform(x)
-        if "Normalize" in mopt:
-            from sklearn.preprocessing import normalize
-            x = normalize(x)
+            # Collect the names of the features
+            names = [index for index, value in relevant_features.iteritems()]
 
-    st.subheader('Test size split of users choice:')
-    st.text('Default is set to 20%')
-    k = st.number_input('', step=5, min_value=10, value=20)
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=k * 0.01, random_state=0)
-    st.write("Data is being split into testing and training data!")
-    # Splitting the data into 20% test and 80% training data
-    # Outlier detection and removal
+            # Drop the target variable from the results
+            names.remove('Label')
+
+            st.subheader('Based on provided threshold, best features are:')
+            # Display the results
+            st.write(names)
+
+            y = dataset['Label']
+            x = dataset[names]
+
+            st.subheader('As we know that data has skewness so need to scale numeric columns ')
+            st.subheader('Which technique you want to use ')
 
 
-    y = dataset.iloc[:, -1].values  # extracting the labels/independent variables
-    train_label = y.tolist()
-    class_names = list(set(train_label))
-    class_dist = Counter(train_label)
-    le = LabelEncoder()
-    y = le.fit_transform(y)  # Encoding categorical data to numeric data
-    st.success("Data cleaned!")
+
+            mopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
+            # "Click to select",
+            if (st.button("START scalling")):
+                if "StandardScaler" in mopt:
+                    from sklearn.preprocessing import StandardScaler
+                    scaler = StandardScaler()
+                    x = scaler.fit_transform(x)
+                if "Normalize" in mopt:
+                    from sklearn.preprocessing import normalize
+                    x = normalize(x)
+
+                st.subheader('Test size split of users choice:')
+                st.text('Default is set to 20%')
+                k = st.number_input('', step=5, min_value=10, value=20)
+                X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=k * 0.01, random_state=0)
+                st.write("Data is being split into testing and training data!")
+                # Splitting the data into 20% test and 80% training data
+                # Outlier detection and removal
+        
+
+                y = dataset.iloc[:, -1].values  # extracting the labels/independent variables
+                train_label = y.tolist()
+                class_names = list(set(train_label))
+                class_dist = Counter(train_label)
+                le = LabelEncoder()
+                y = le.fit_transform(y)  # Encoding categorical data to numeric data
+                st.success("Data cleaned!")
 
