@@ -50,7 +50,6 @@ if file is not None:
     # dataset.drop("EventId", axis=1, inplace=True)
 
     st.write("PERFORM EXPLORATORY DATA ANALYSIS")
-    st.write(dataset.info())
 
     st.subheader("Labels distribution")
     st.bar_chart(dataset["Label"].value_counts())
@@ -96,7 +95,7 @@ if file is not None:
         # "Click to select",
         if (st.button("START imputing")):
             if "convert to zero" in mopt:
-    
+
                 imp_mean = SimpleImputer(missing_values=-999.0, strategy='constant', fill_value=0)
                 # Imputation transformer for completing missing values.
                 imp_mean.fit(x)
