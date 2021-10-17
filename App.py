@@ -8,37 +8,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 from sklearn.impute import SimpleImputer
-from sklearn.ensemble import IsolationForest
 from collections import Counter
 import seaborn as sb
-from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Input, Dense, LSTM, Dropout, SimpleRNN
-from sklearn.metrics import accuracy_score
-from tensorflow.keras.models import Model
 import streamlit as st
 import matplotlib.pyplot as plt
-from sklearn.metrics import classification_report
-from tensorflow.keras.optimizers import Adam
-
-model = tf.keras.models.load_model('Higgs.h5')
-
-
-def prediction(model, input):
-    prediction = model.predict(input)
-    print('prediction successful')
-    return 's' if prediction[0][0] >= 0.5 else 'b'
-
-
-def proba(model, input):
-    proba = model.predict(input)
-    print('probability successful')
-    return proba
-
-
 
 st.title('HIGGS BOSON - DEEP LEARNING PROJECT')
 st.subheader('Upload the Higgs Boson dataset: (.csv)')
