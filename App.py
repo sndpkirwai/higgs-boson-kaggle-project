@@ -56,7 +56,7 @@ if file is not None:
     st.subheader("Finding no. of null values per column in the dataset")
     st.write(dataset.isna().sum())
     st.subheader("Statistical information about the dataset")
-    st.write(dataset.describe())
+    st.write(dataset.describe())+
     st.subheader("Shape of dataset")
     st.write(dataset.shape)
 
@@ -68,7 +68,7 @@ if file is not None:
     st.write(fig)
 
     # Get the absolute value of the correlation
-    cor_target = abs(corr["Label"])
+    cor_target = corr["Label"]
 
     st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
     k = st.number_input('', step=0.1, min_value=0.1, value=0.3)
