@@ -115,26 +115,26 @@ if file is not None:
 
 
 
-            st.subheader('As we know that data has skewness so need to scale numeric columns ')
-            st.subheader('Which technique you want to use ')
+        st.subheader('As we know that data has skewness so need to scale numeric columns ')
+        st.subheader('Which technique you want to use ')
 
-            scalopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
+        scalopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
                 # "Click to select",
-            if (st.button("START scalling")):
-                if "StandardScaler" in scalopt:
-                    from sklearn.preprocessing import StandardScaler
-                    scaler = StandardScaler()
-                    x = scaler.fit_transform(dataset)
-                if "Normalize" in scalopt:
-                    from sklearn.preprocessing import normalize
-                    x = normalize(dataset)
+        if (st.button("START scalling"))
+            if "StandardScaler" in scalopt:
+                from sklearn.preprocessing import StandardScaler
+                scaler = StandardScaler()
+                x = scaler.fit_transform(dataset)
+            if "Normalize" in scalopt:
+                from sklearn.preprocessing import normalize
+                x = normalize(dataset)
 
-                st.subheader('Test size split of users choice:')
-                st.text('Default is set to 20%')
-                splt = st.number_input('', step=5, min_value=10, value=20)
-                X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=splt * 0.01, random_state=0)
-                st.write("Data is being split into testing and training data!")
+        st.subheader('Test size split of users choice:')
+        st.text('Default is set to 20%')
+        splt = st.number_input('', step=5, min_value=10, value=20)
+        X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=splt * 0.01, random_state=0)
+        st.write("Data is being split into testing and training data!")
                     # Splitting the data into 20% test and 80% training data
                     # Outlier detection and removal
-                st.success("Data cleaned!")
+        st.success("Data cleaned!")
 
