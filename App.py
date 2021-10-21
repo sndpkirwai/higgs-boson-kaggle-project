@@ -68,6 +68,7 @@ if file is not None:
     st.write(fig)
 
     # Get the absolute value of the correlation
+    st.write(corr)
     cor_target = abs(corr['Label'])
 
     st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
