@@ -123,16 +123,16 @@ if file is not None:
                          from sklearn.preprocessing import StandardScaler
                          scaler = StandardScaler()
                          x = scaler.fit_transform(dataset)
-                     if "Normalize" in scalopt:
+                      if "Normalize" in scalopt:
                          from sklearn.preprocessing import normalize
                          x = normalize(dataset)
 
-                    st.subheader('Test size split of users choice:')
-                    st.text('Default is set to 20%')
-                    splt = st.number_input('', step=5, min_value=10, value=20)
-                    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=splt * 0.01, random_state=0)
-                    st.write("Data is being split into testing and training data!")
-                     # Splitting the data into 20% test and 80% training data
-                     # Outlier detection and removal
-                    st.success("Data cleaned!")
+                      st.subheader('Test size split of users choice:')
+                      st.text('Default is set to 20%')
+                      splt = st.number_input('', step=5, min_value=10, value=20)
+                      X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=splt * 0.01, random_state=0)
+                      st.write("Data is being split into testing and training data!")
+                      # Splitting the data into 20% test and 80% training data
+                      # Outlier detection and removal
+                      st.success("Data cleaned!")
 
