@@ -54,6 +54,11 @@ if file is not None:
     st.subheader("Labels distribution")
     st.bar_chart(dataset["Label"].value_counts())
     st.subheader("Finding no. of null values per column in the dataset")
+    st.write('Getting dummy variable for target column')
+    dataset['Label'] = dataset['Label'].replace('s',0)
+    dataset['Label'] = dataset['Label'].replace('b',1)
+    st.write('converted label counts')
+    st.write(dataset['Label'].value_counts())
     st.write(dataset.isna().sum())
     st.subheader("Statistical information about the dataset")
     st.write(dataset.describe())
@@ -65,7 +70,7 @@ if file is not None:
     # Get the absolute value of the correlation
     st.write(corr)
     cor_target = abs(corr['Label'])
-    plt.figure(figsize=(32, 32))
+   
     fig, ax = plt.subplots()
     sb.heatmap(corr, annot=True, ax=ax)
     st.write(fig)
