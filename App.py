@@ -63,7 +63,9 @@ if file is not None:
     st.subheader("Correlation matrix of the features")
     corr = dataset.corr()
     plt.figure(figsize=(32, 32))
-    st.write(sb.heatmap(corr, annot=True))
+    fig, ax = plt.subplots()
+    sb.heatmap(corr, annot=True, ax=ax)
+    st.write(fig)
 
     # Get the absolute value of the correlation
     cor_target = abs(corr['Label'])
