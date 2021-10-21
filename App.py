@@ -101,17 +101,17 @@ if file is not None:
         mopt = st.multiselect("Select :", ["convert to zero", "convert to mean"])
         # "Click to select",
         if (st.button("START imputing")):
-            if "convert to zero" in mopt:
+                if "convert to zero" in mopt:
 
-                imp_mean = SimpleImputer(missing_values=-999.0, strategy='constant', fill_value=0)
-                # Imputation transformer for completing missing values.
-                imp_mean.fit(x)
-                dataset = imp_mean.transform(x)
-            if "convert to mean" in mopt:
-                imp_mean = SimpleImputer(missing_values=-999.0, strategy='mean')
-                # Imputation transformer for completing missing values.
-                imp_mean.fit(x)
-                dataset = imp_mean.transform(x)
+                    imp_mean = SimpleImputer(missing_values=-999.0, strategy='constant', fill_value=0)
+                    # Imputation transformer for completing missing values.
+                    imp_mean.fit(x)
+                    dataset = imp_mean.transform(x)
+                if "convert to mean" in mopt:
+                    imp_mean = SimpleImputer(missing_values=-999.0, strategy='mean')
+                    # Imputation transformer for completing missing values.
+                    imp_mean.fit(x)
+                    dataset = imp_mean.transform(x)
 
 
 
@@ -120,14 +120,14 @@ if file is not None:
 
         scalopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
                 # "Click to select",
-        if (st.button("START scalling"))
-            if "StandardScaler" in scalopt:
-                from sklearn.preprocessing import StandardScaler
-                scaler = StandardScaler()
-                x = scaler.fit_transform(dataset)
-            if "Normalize" in scalopt:
-                from sklearn.preprocessing import normalize
-                x = normalize(dataset)
+        if (st.button("START scalling")):
+                if "StandardScaler" in scalopt:
+                    from sklearn.preprocessing import StandardScaler
+                    scaler = StandardScaler()
+                    x = scaler.fit_transform(dataset)
+                if "Normalize" in scalopt:
+                    from sklearn.preprocessing import normalize
+                    x = normalize(dataset)
 
         st.subheader('Test size split of users choice:')
         st.text('Default is set to 20%')
