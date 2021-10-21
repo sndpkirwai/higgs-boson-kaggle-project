@@ -62,14 +62,15 @@ if file is not None:
 
     st.subheader("Correlation matrix of the features")
     corr = dataset.corr()
+    # Get the absolute value of the correlation
+    st.write(corr)
+    cor_target = abs(corr['Label'])
     plt.figure(figsize=(32, 32))
     fig, ax = plt.subplots()
     sb.heatmap(corr, annot=True, ax=ax)
     st.write(fig)
 
-    # Get the absolute value of the correlation
-    st.write(corr)
-    cor_target = abs(corr['Label'])
+    
 
     st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
     k = st.number_input('', step=0.1, min_value=0.1, value=0.3)
