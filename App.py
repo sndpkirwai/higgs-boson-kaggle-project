@@ -37,7 +37,7 @@ with col4:
 # if the user chooses to upload the data
 file = st.file_uploader('Dataset')
 # browsing and uploading the dataset (strictly in csv format)
-dataset = pd.DataFrame()
+# dataset = pd.DataFrame()
 flag = False
 
 if file is not None:
