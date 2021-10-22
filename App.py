@@ -98,7 +98,7 @@ if file is not None:
 
         st.subheader('As you can see from the dataset. It is having negative values as well. :')
         st.subheader('Also dataset contains -999 values which is less relevent so which technique you want to use to imputing')
-        mopt = st.multiselect("Select :", ["convert to zero", "convert to mean"])
+        mopt = st.selectbox("Select :", ("convert to zero", "convert to mean"))
         # "Click to select",
         if (st.button("START imputing")):
                 if "convert to zero" in mopt:
@@ -116,7 +116,7 @@ if file is not None:
                 st.subheader('As we know that data has skewness so need to scale numeric columns ')
                 st.subheader('Which technique you want to use ')
 
-                scalopt = st.multiselect("Select :", ["StandardScaler", "Normalize"])
+                scalopt = st.selectbox("Select :", ("StandardScaler", "Normalize"))
                 # "Click to select",
                 if (st.button("START scalling")):
                       if "StandardScaler" in scalopt:
