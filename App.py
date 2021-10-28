@@ -99,7 +99,7 @@ if file is not None:
     st.subheader('Also dataset contains -999 values which is less relevent so which technique you want to use to imputing')
     mopt = st.selectbox("Select :", ("convert to zero", "convert to mean"))
     # "Click to select",
-        if (st.button("START imputing")):
+    if (st.button("START imputing")):
             if "convert to zero" in mopt:
 
                 imp_zero = SimpleImputer(missing_values=-999.0, strategy='constant', fill_value=0)
