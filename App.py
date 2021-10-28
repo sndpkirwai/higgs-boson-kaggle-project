@@ -73,7 +73,8 @@ if file is not None:
     sb.heatmap(corr, annot=True, ax=ax)
     st.write(fig)
 
-    
+    y = None
+    x = None
 
     st.subheader('After looking at correlation plot, which threhold point you have to set for feature selection :')
     k = st.number_input('', step=0.1, min_value=0.1, value=0.3)
